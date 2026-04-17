@@ -31,4 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+});// Add this to your <script> section
+document.querySelectorAll('.sidebar li').forEach(item => {
+    item.addEventListener('click', function() {
+        // Remove active from all
+        document.querySelectorAll('.sidebar li').forEach(li => {
+            li.classList.remove('active');
+        });
+        // Add active to clicked one
+        this.classList.add('active');
+    });
 });
