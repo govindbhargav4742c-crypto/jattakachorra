@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Dash | Hackathon Pro</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body { background-color: var(--bg-light); color: var(--text-dark); }
+
+        .dashboard-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 240px; background: #0f172a; color: white; padding: 2rem; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; margin-bottom: 3rem; color: var(--primary); }
+        .sidebar ul { list-style: none; }
+        .sidebar li { padding: 1rem 0; display: flex; align-items: center; gap: 10px; cursor: pointer; opacity: 0.7; transition: 0.3s; }
+        .sidebar li.active, .sidebar li:hover { opacity: 1; color: var(--primary); }
+
+        /* Content Area */
+        .content { flex: 1; padding: 2rem; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+
+        /* Stats Cards */
+        .stats-grid { display: grid; grid-template-cols: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--white); padding: 1.5rem; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .stat-info h3 { font-size: 1.8rem; margin: 5px 0; }
+        .trend.up { color: #10b981; font-size: 0.8rem; font-weight: bold; }
+        .stat-card i { font-size: 2rem; color: var(--primary); opacity: 0.2; }
+
+        /* Chart Area */
+        .chart-container { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="ph ph-rocket-launch"></i>
+                <span>SalesFlow</span>
+            </div>
+            <ul>
+                <li class="active"><i class="ph ph-house"></i> Dashboard</li>
+                <li><i class="ph ph-chart-line"></i> Revenue</li>
+                <li><i class="ph ph-users"></i> Customers</li>
+                <li><i class="ph ph-gear"></i> Settings</li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header>
+                <h1>Performance Overview</h1>
+                <div class="user-profile">
+                    <span>Admin Mode</span>
+                </div>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <p>Total Sales</p>
+                        <h3>$54,230</h3>
+                        <span class="trend up">+12.5%</span>
+                    </div>
+                    <i class="ph ph-shopping-cart"></i>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <p>Average Order</p>
+                        <h3>$128.50</h3>
+                        <span class="trend up">+3.2%</span>
+                    </div>
+                    <i class="ph ph-currency-dollar"></i>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+
+            // Gradient background for the chart
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(99, 102, 241, 0.5)');
+            gradient.addColorStop(1, 'rgba(99, 102, 241, 0)');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Revenue ($)',
+                        data: [1200, 1900, 1700, 2500, 2100, 3200, 2800],
+                        borderColor: '#6366f1',
+                        borderWidth: 3,
+                        fill: true,
+                        backgroundColor: gradient,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { display: false } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
